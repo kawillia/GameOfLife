@@ -5,14 +5,14 @@ using System.Text;
 
 namespace GameOfLife.Core
 {
-    public class Grid
+    public class LifeGrid
     {
         public Int32 NumberOfRows { get; set; }
         public Int32 NumberOfColumns { get; set; }
 
         private Boolean[,] cells;
 
-        public Grid(Int32 numberOfRows, Int32 numberOfColumns)
+        public LifeGrid(Int32 numberOfRows, Int32 numberOfColumns)
         {
             NumberOfRows = numberOfRows;
             NumberOfColumns = numberOfColumns;

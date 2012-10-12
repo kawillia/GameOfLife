@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.ComponentModel;
+using GameOfLife.Core;
 
 namespace GameOfLife.WpfApplication
 {
@@ -20,6 +21,7 @@ namespace GameOfLife.WpfApplication
     {
         private const Int32 NumberOfRows = 30;
         private const Int32 NumberOfColumns = 30;
+
         private BackgroundWorker backgroundWorker;
         private Boolean restart = false;
 
@@ -36,7 +38,13 @@ namespace GameOfLife.WpfApplication
             backgroundWorker.RunWorkerAsync();
         }
 
-        protected void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        protected void replayButton_Click(Object sender, RoutedEventArgs e)
+        {
+            backgroundWorker.CancelAsync();
+            restart = true;
+        }
+
+        protected void backgroundWorker_RunWorkerCompleted(Object sender, RunWorkerCompletedEventArgs e)
         {
             if (restart)
             {
@@ -45,15 +53,15 @@ namespace GameOfLife.WpfApplication
             }
         }
 
-        protected void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        protected void backgroundWorker_ProgressChanged(Object sender, ProgressChangedEventArgs e)
         {
             var cells = e.UserState as Boolean[,];
             DisplayCells(cells);
         }
 
-        protected void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        protected void backgroundWorker_DoWork(Object sender, DoWorkEventArgs e)
         {
-            var grid = new GameOfLife.Core.Grid(NumberOfRows, NumberOfColumns);
+            var grid = new LifeGrid(NumberOfRows, NumberOfColumns);
             RandomlySeedGrid(grid);
 
             while (true)
@@ -69,7 +77,7 @@ namespace GameOfLife.WpfApplication
             }
         }
 
-        private static void RandomlySeedGrid(GameOfLife.Core.Grid grid)
+        private static void RandomlySeedGrid(LifeGrid grid)
         {
             var numberOfCells = grid.NumberOfRows * grid.NumberOfColumns;
             var random = new Random();
@@ -117,12 +125,6 @@ namespace GameOfLife.WpfApplication
                     dynamicGrid.Children.Add(panel);
                 }
             }
-        }
-
-        private void replayButton_Click(Object sender, RoutedEventArgs e)
-        {
-            backgroundWorker.CancelAsync();
-            restart = true;
         }
     }
 }

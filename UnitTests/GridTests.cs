@@ -6,12 +6,12 @@ namespace GameOfLife.UnitTests
     [TestClass]
     public class GridTests
     {
-        private Grid grid;
+        private LifeGrid grid;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            grid = new Grid(4, 4);
+            grid = new LifeGrid(4, 4);
         }
 
         [TestMethod]
