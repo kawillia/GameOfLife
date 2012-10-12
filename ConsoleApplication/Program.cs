@@ -11,7 +11,7 @@ namespace GameOfLife.ConsoleApplication
     {
         static void Main(string[] args)
         {
-            var grid = new Grid(16, 8);
+            var grid = new Grid(100, 100);
             RandomlySeedGrid(grid);
 
             while (true)
