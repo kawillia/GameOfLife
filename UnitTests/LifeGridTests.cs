@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GameOfLife.UnitTests
 {
     [TestClass]
-    public class GridTests
+    public class LifeGridTests
     {
         private LifeGrid grid;
 
