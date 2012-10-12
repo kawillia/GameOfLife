@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameOfLife.Core;
 using System.Threading;
+using GameOfLife.Core;
 
 namespace GameOfLife.ConsoleApplication
 {
