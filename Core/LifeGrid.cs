@@ -17,10 +17,6 @@ namespace GameOfLife.Core
             NumberOfColumns = numberOfColumns;
 
             cells = new Boolean[numberOfRows, numberOfColumns];
-
-            for (var i = 0; i < numberOfRows; i++)
-                for (var j = 0; j < numberOfColumns; j++)
-                    cells[i, j] = false;
         }
 
         public void BringToLife(Int32 rowNumber, Int32 columnNumber)
@@ -28,7 +24,7 @@ namespace GameOfLife.Core
             cells[rowNumber - 1, columnNumber - 1] = true;
         }
 
-        public void Update()
+        public void Tick()
         {
             var copiedCells = new Boolean[NumberOfRows, NumberOfColumns];
             Array.Copy(cells, copiedCells, cells.Length);

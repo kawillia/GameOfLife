@@ -4,6 +4,6 @@
         Title="Game of Life" Height="600" Width="600" ResizeMode="NoResize">
     <Grid Name="mainGrid">
         <Grid Height="500" Width="500" Name="dynamicGrid" ShowGridLines="True"/>
-        <Button Content="Replay" Height="23" HorizontalAlignment="Left" Margin="257,540,0,0" Name="replayButton" VerticalAlignment="Top" Width="75" Click="replayButton_Click" />
+        <Button Content="Replay" Height="23" HorizontalAlignment="Left" Margin="254,539,0,0" Name="replayButton" VerticalAlignment="Top" Width="75" Click="replayButton_Click" />
     </Grid>
 </Window>

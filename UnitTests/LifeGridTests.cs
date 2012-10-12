@@ -18,7 +18,7 @@ namespace GameOfLife.UnitTests
         public void AnyLiveCellHavingThreeNeighborsWithFewerThanTwoLiveNeighborsDies()
         {
             grid.BringToLife(1, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 1);
             Assert.IsFalse(isAlive);
@@ -28,7 +28,7 @@ namespace GameOfLife.UnitTests
         public void AnyLiveCellHavingFiveNeighborsWithFewerThanTwoLiveNeighborsDies()
         {
             grid.BringToLife(1, 2);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 2);
             Assert.IsFalse(isAlive);
@@ -38,7 +38,7 @@ namespace GameOfLife.UnitTests
         public void AnyLiveCellHavingEightNeighborsWithFewerThanTwoLiveNeighborsDies()
         {
             grid.BringToLife(2, 2);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(2, 2);
             Assert.IsFalse(isAlive);
@@ -50,7 +50,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.BringToLife(2, 2);
             grid.BringToLife(2, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 1);
             Assert.IsTrue(isAlive);
@@ -62,7 +62,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 1);
             grid.BringToLife(1, 3);
             grid.BringToLife(2, 3);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 2);
             Assert.IsTrue(isAlive);
@@ -74,7 +74,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.BringToLife(2, 1);
             grid.BringToLife(1, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(2, 2);
             Assert.IsTrue(isAlive);
@@ -88,7 +88,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 3);
             grid.BringToLife(2, 3);
             grid.BringToLife(2, 2);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 2);
             Assert.IsFalse(isAlive);
@@ -103,7 +103,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 2);
             grid.BringToLife(2, 1);
             
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(2, 2);
             Assert.IsFalse(isAlive);
@@ -115,7 +115,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 1);
             grid.BringToLife(1, 2);
             grid.BringToLife(2, 2);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 1);
             Assert.IsTrue(isAlive);
@@ -127,7 +127,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.BringToLife(1, 1);
             grid.BringToLife(2, 3);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 2);
             Assert.IsTrue(isAlive);
@@ -139,7 +139,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 2);
             grid.BringToLife(2, 1);
             grid.BringToLife(1, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(2, 2);
             Assert.IsTrue(isAlive);
@@ -152,7 +152,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.BringToLife(2, 2);
             grid.BringToLife(2, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 1);
             Assert.IsTrue(isAlive);
@@ -165,7 +165,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 1);
             grid.BringToLife(1, 3);
             grid.BringToLife(2, 3);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(1, 2);
             Assert.IsTrue(isAlive);
@@ -178,7 +178,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.BringToLife(2, 1);
             grid.BringToLife(1, 1);
-            grid.Update();
+            grid.Tick();
 
             var isAlive = grid.IsCellAlive(2, 2);
             Assert.IsTrue(isAlive);

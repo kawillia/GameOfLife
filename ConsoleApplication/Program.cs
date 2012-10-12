@@ -13,7 +13,7 @@ namespace GameOfLife.ConsoleApplication
 
             while (true)
             {
-                grid.Update();
+                grid.Tick();
 
                 var cells = grid.GetCells();
                 DisplayCells(cells);
