@@ -172,7 +172,7 @@ namespace GameOfLife.UnitTests
         }
 
         [TestMethod]
-        public void AnyLiveCellHavingRightNeighborsWithExactlyThreeLiveNeighborsLivesOn()
+        public void AnyLiveCellHavingEightNeighborsWithExactlyThreeLiveNeighborsLivesOn()
         {
             grid.BringToLife(2, 2);
             grid.BringToLife(1, 2);
