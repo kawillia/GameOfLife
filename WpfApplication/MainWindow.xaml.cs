@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace GameOfLife.WpfApplication
     {
         private const Int32 NumberOfRows = 40;
         private const Int32 NumberOfColumns = 40;
+        private const Int32 TickDelay = 250;
 
         private BackgroundWorker backgroundWorker;
         private Boolean restart = false;
@@ -25,8 +27,8 @@ namespace GameOfLife.WpfApplication
             backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
             backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
             backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
-            backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -73,14 +75,14 @@ namespace GameOfLife.WpfApplication
 
         protected void backgroundWorker_ProgressChanged(Object sender, ProgressChangedEventArgs e)
         {
-            var cells = e.UserState as Boolean[,];
-            DisplayCells(cells);
+            var liveCells = e.UserState as IEnumerable<Coordinate>;
+            UpdateDisplay(liveCells);
         }
 
         protected void backgroundWorker_DoWork(Object sender, DoWorkEventArgs e)
         {
             var grid = new LifeGrid(NumberOfRows, NumberOfColumns);
-            RandomlySeedGrid(grid);
+            RandomGridSeeder.Seed(grid);
 
             while (true)
             {
@@ -92,46 +94,25 @@ namespace GameOfLife.WpfApplication
 
                 grid.Tick();
 
-                var cells = grid.GetCells();
+                var cells = grid.GetLiveCells();
                 backgroundWorker.ReportProgress(0, cells);
-                Thread.Sleep(200);
+                Thread.Sleep(TickDelay);
             }
         }
-
-        private static void RandomlySeedGrid(LifeGrid grid)
-        {
-            var numberOfCells = grid.NumberOfRows * grid.NumberOfColumns;
-            var random = new Random();
-
-            for (var i = 0; i < numberOfCells; i++)
-            {
-                var randomRowNumber = random.Next(1, grid.NumberOfRows);
-                var randomColumnNumber = random.Next(1, grid.NumberOfColumns);
-
-                grid.BringToLife(randomRowNumber, randomColumnNumber);
-            }
-        }
-
-        private void DisplayCells(Boolean[,] cells)
+        
+        private void UpdateDisplay(IEnumerable<Coordinate> liveCells)
         {
             dynamicGrid.Children.Clear();
 
-            for (var i = 0; i < NumberOfRows; i++)
+            foreach (var liveCell in liveCells)
             {
-                for (var j = 0; j < NumberOfColumns; j++)
-                {
-                    var panel = new DockPanel();
+                var panel = new DockPanel();
+                panel.Background = new SolidColorBrush(Colors.Black);
 
-                    if (cells[i, j])
-                        panel.Background = new SolidColorBrush(Colors.Black);
-                    else
-                        panel.Background = new SolidColorBrush(Colors.White);
+                Grid.SetColumn(panel, liveCell.X);
+                Grid.SetRow(panel, liveCell.Y);
 
-                    Grid.SetRow(panel, i);
-                    Grid.SetColumn(panel, j);
-                    
-                    dynamicGrid.Children.Add(panel);
-                }
+                dynamicGrid.Children.Add(panel);
             }
         }
     }

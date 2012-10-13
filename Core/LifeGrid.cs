@@ -26,8 +26,7 @@ namespace GameOfLife.Core
 
         public void Tick()
         {
-            var copiedCells = new Boolean[NumberOfRows, NumberOfColumns];
-            Array.Copy(cells, copiedCells, cells.Length);
+            var cellsToBringToLife = new List<Coordinate>();
 
             for (var i = 0; i < NumberOfRows; i++)
             {
@@ -36,14 +35,21 @@ namespace GameOfLife.Core
                     var neighbors = GetNeighbors(i, j);
                     var numberOfLiveNeighbors = neighbors.Count(n => n);
 
-                    if (cells[i, j])
-                        copiedCells[i, j] = numberOfLiveNeighbors > 1 && numberOfLiveNeighbors < 4;
-                    else
-                        copiedCells[i, j] = numberOfLiveNeighbors == 3;
+                    if (ShouldCellBeAlive(cells[i, j], numberOfLiveNeighbors))
+                        cellsToBringToLife.Add(new Coordinate(j, i));
                 }
             }
 
-            Array.Copy(copiedCells, cells, copiedCells.Length);
+            cells = new Boolean[NumberOfRows, NumberOfColumns];
+
+            foreach (var cellToBringToLife in cellsToBringToLife)
+                cells[cellToBringToLife.Y, cellToBringToLife.X] = true;
+        }
+
+        private bool ShouldCellBeAlive(Boolean isAlive, Int32 numberOfLiveNeighbors)
+        {
+            return (isAlive && numberOfLiveNeighbors > 1 && numberOfLiveNeighbors < 4) ||
+                   (isAlive == false && numberOfLiveNeighbors == 3);
         }
 
         private IEnumerable<Boolean> GetNeighbors(Int32 rowIndex, Int32 columnIndex)
@@ -100,26 +106,27 @@ namespace GameOfLife.Core
 
         private Boolean AreValidNeighborIndices(Int32 neighborRowIndex, Int32 neighborColumnIndex)
         {
-            var numberOfRows = cells.GetLength(0);
-            var numberOfColumns = cells.GetLength(1);
-
             return neighborRowIndex >= 0 &&
-                   neighborRowIndex < numberOfRows &&
+                   neighborRowIndex <= NumberOfRows - 1 &&
                    neighborColumnIndex >= 0 &&
-                   neighborColumnIndex < numberOfColumns - 1;
+                   neighborColumnIndex <= NumberOfColumns - 1;
         }
-
+        
         public Boolean IsCellAlive(Int32 rowNumber, Int32 columnNumber)
         {
             return cells[rowNumber - 1, columnNumber - 1];
         }
 
-        public Boolean[,] GetCells()
+        public IEnumerable<Coordinate> GetLiveCells()
         {
-            var copiedCells = new Boolean[NumberOfRows, NumberOfColumns];
-            Array.Copy(cells, copiedCells, cells.Length);
+            var liveCells = new List<Coordinate>();
 
-            return copiedCells;
+            for (var i = 0; i < NumberOfRows; i++)
+                for (var j = 0; j < NumberOfColumns; j++)
+                    if (cells[i, j])
+                        liveCells.Add(new Coordinate(j, i));
+
+            return liveCells;
         }
     }
 }
