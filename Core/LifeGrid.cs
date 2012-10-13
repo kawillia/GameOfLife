@@ -46,7 +46,7 @@ namespace GameOfLife.Core
                 cells[cellToBringToLife.Y, cellToBringToLife.X] = true;
         }
 
-        private bool ShouldCellBeAlive(Boolean isAlive, Int32 numberOfLiveNeighbors)
+        private Boolean ShouldCellBeAlive(Boolean isAlive, Int32 numberOfLiveNeighbors)
         {
             return (isAlive && numberOfLiveNeighbors > 1 && numberOfLiveNeighbors < 4) ||
                    (isAlive == false && numberOfLiveNeighbors == 3);
