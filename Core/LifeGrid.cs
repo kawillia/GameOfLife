@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameOfLife.Core
 {
@@ -10,6 +9,7 @@ namespace GameOfLife.Core
         public Int32 NumberOfColumns { get; set; }
 
         private Boolean[,] cells;
+        private Boolean[,] copiedCells;
 
         public LifeGrid(Int32 numberOfRows, Int32 numberOfColumns)
         {
@@ -26,77 +26,103 @@ namespace GameOfLife.Core
 
         public void Tick()
         {
-            var cellsToBringToLife = new List<Coordinate>();
+            copiedCells = new Boolean[NumberOfRows, NumberOfColumns];
+            Array.Copy(cells, copiedCells, cells.Length);
+            
+            for (var x = 0; x < NumberOfColumns; x++)
+                ProcessCell(x, 0);
 
-            for (var i = 0; i < NumberOfRows; i++)
+            for (var y = 0; y < NumberOfRows; y++)
+                ProcessCell(0, y);
+
+            for (var x = 0; x < NumberOfColumns; x++)
+                ProcessCell(x, NumberOfRows - 1);
+
+            for (var y = 0; y < NumberOfRows; y++)
+                ProcessCell(NumberOfColumns - 1, y);
+
+            for (var y = 1; y < NumberOfRows - 1; y++)
+                for (var x = 1; x < NumberOfColumns - 1; x++)
+                    ProcessCell(x, y);
+
+            cells = copiedCells;
+        }
+
+        private void ProcessCell(Int32 x, Int32 y)
+        {
+            copiedCells[y, x] = ShouldBeAlive(cells[y, x], x, y);
+        }
+
+        private Boolean ShouldBeAlive(Boolean isAlive, Int32 x, Int32 y)
+        {
+            var numberOfLiveNeighbors = 0;
+            var numberOfDeadNeighbors = 0;
+            var neighbors = GetNeighbors(x, y);
+
+            foreach (var neighbor in neighbors)
             {
-                for (var j = 0; j < NumberOfColumns; j++)
-                {
-                    var neighbors = GetNeighbors(i, j);
-                    var numberOfLiveNeighbors = neighbors.Count(n => n);
+                if (neighbor)
+                    numberOfLiveNeighbors++;
+                else
+                    numberOfDeadNeighbors++;
 
-                    if (ShouldCellBeAlive(cells[i, j], numberOfLiveNeighbors))
-                        cellsToBringToLife.Add(new Coordinate(j, i));
-                }
+                if (numberOfLiveNeighbors > 3 || numberOfDeadNeighbors == 7)
+                    return false;
             }
 
-            cells = new Boolean[NumberOfRows, NumberOfColumns];
-
-            foreach (var cellToBringToLife in cellsToBringToLife)
-                cells[cellToBringToLife.Y, cellToBringToLife.X] = true;
+            return numberOfLiveNeighbors == 3 || 
+                   (isAlive && numberOfLiveNeighbors == 2);
         }
 
-        private Boolean ShouldCellBeAlive(Boolean isAlive, Int32 numberOfLiveNeighbors)
+        private IEnumerable<Boolean> GetNeighbors(Int32 x, Int32 y)
         {
-            return (isAlive && numberOfLiveNeighbors > 1 && numberOfLiveNeighbors < 4) ||
-                   (isAlive == false && numberOfLiveNeighbors == 3);
-        }
-
-        private IEnumerable<Boolean> GetNeighbors(Int32 rowIndex, Int32 columnIndex)
-        {
-            var neighbors = new List<Boolean>();
-
             // Top
-            if (rowIndex > 0)
-                neighbors.Add(cells[rowIndex - 1, columnIndex]);
+            if (y > 0)
+            {
+                yield return cells[y - 1, x];
 
-            // Top Right
-            if (rowIndex > 0 && columnIndex < NumberOfColumns - 1)
-                neighbors.Add(cells[rowIndex - 1, columnIndex + 1]);
+                // Top Right
+                if (x < NumberOfColumns - 1)
+                    yield return cells[y - 1, x + 1];
+            }
 
             // Right
-            if (columnIndex < NumberOfColumns - 1)
-                neighbors.Add(cells[rowIndex, columnIndex + 1]);
+            if (x < NumberOfColumns - 1)
+            {
+                yield return cells[y, x + 1];
 
-            // Bottom Right
-            if (rowIndex < NumberOfRows - 1 && columnIndex < NumberOfColumns - 1)
-                neighbors.Add(cells[rowIndex + 1, columnIndex + 1]);
-
+                // Bottom Right
+                if (y < NumberOfRows - 1)
+                    yield return cells[y + 1, x + 1];
+            }
+            
             // Bottom
-            if (rowIndex < NumberOfRows - 1)
-                neighbors.Add(cells[rowIndex + 1, columnIndex]);
+            if (y < NumberOfRows - 1)
+            {
+                yield return cells[y + 1, x];
 
-            // Bottom Left
-            if (rowIndex < NumberOfRows - 1 && columnIndex > 0)
-                neighbors.Add(cells[rowIndex + 1, columnIndex - 1]);
+                // Bottom Left
+                if (x > 0)
+                    yield return cells[y + 1, x - 1];
+            }
 
             // Left
-            if (columnIndex > 0)
-                neighbors.Add(cells[rowIndex, columnIndex - 1]);
+            if (x > 0)
+            {
+                yield return cells[y, x - 1];
 
-            // Top Left
-            if (rowIndex > 0 && columnIndex > 0)
-                neighbors.Add(cells[rowIndex - 1, columnIndex - 1]);
-
-            return neighbors;
+                // Top Left
+                if (y > 0)
+                    yield return cells[y - 1, x - 1];
+            }
         }
         
-        public Boolean IsCellAlive(Int32 rowNumber, Int32 columnNumber)
+        public Boolean IsCellAlive(Int32 columnNumber, Int32 rowNumber)
         {
             return cells[rowNumber - 1, columnNumber - 1];
         }
 
-        public IEnumerable<Coordinate> GetLiveCells()
+        public IEnumerable<Coordinate> GetLiveCellCoordinates()
         {
             var liveCells = new List<Coordinate>();
 

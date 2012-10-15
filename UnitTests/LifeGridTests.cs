@@ -30,7 +30,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(1, 2);
             grid.Tick();
 
-            var isAlive = grid.IsCellAlive(1, 2);
+            var isAlive = grid.IsCellAlive(2, 1);
             Assert.IsFalse(isAlive);
         }
 
@@ -64,7 +64,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 3);
             grid.Tick();
 
-            var isAlive = grid.IsCellAlive(1, 2);
+            var isAlive = grid.IsCellAlive(2, 1);
             Assert.IsTrue(isAlive);
         }
 
@@ -90,7 +90,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 2);
             grid.Tick();
 
-            var isAlive = grid.IsCellAlive(1, 2);
+            var isAlive = grid.IsCellAlive(2, 1);
             Assert.IsFalse(isAlive);
         }
 
@@ -129,7 +129,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 3);
             grid.Tick();
 
-            var isAlive = grid.IsCellAlive(1, 2);
+            var isAlive = grid.IsCellAlive(2, 1);
             Assert.IsTrue(isAlive);
         }
 
@@ -167,7 +167,7 @@ namespace GameOfLife.UnitTests
             grid.BringToLife(2, 3);
             grid.Tick();
 
-            var isAlive = grid.IsCellAlive(1, 2);
+            var isAlive = grid.IsCellAlive(2, 1);
             Assert.IsTrue(isAlive);
         }
 

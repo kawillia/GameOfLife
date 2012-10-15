@@ -11,8 +11,8 @@ namespace GameOfLife.WpfApplication
 {
     public partial class MainWindow : Window
     {
-        private const Int32 NumberOfRows = 40;
-        private const Int32 NumberOfColumns = 40;
+        private const Int32 NumberOfRows = 150;
+        private const Int32 NumberOfColumns = 150;
         private const Int32 TickDelay = 250;
 
         private BackgroundWorker backgroundWorker;
@@ -34,11 +34,16 @@ namespace GameOfLife.WpfApplication
 
         private void CreateGrid()
         {
-            dynamicGrid.ColumnDefinitions.Clear();
             dynamicGrid.RowDefinitions.Clear();
+            dynamicGrid.ColumnDefinitions.Clear();
 
             var rowHeight = dynamicGrid.Height / (Double)NumberOfRows;
             var columnHeight = dynamicGrid.Width / (Double)NumberOfColumns;
+
+            if (rowHeight > columnHeight)
+                rowHeight = columnHeight;
+            else if (columnHeight > rowHeight)
+                columnHeight = rowHeight;
 
             for (var i = 0; i < NumberOfRows; i++)
             {
@@ -94,17 +99,17 @@ namespace GameOfLife.WpfApplication
 
                 grid.Tick();
 
-                var cells = grid.GetLiveCells();
+                var cells = grid.GetLiveCellCoordinates();
                 backgroundWorker.ReportProgress(0, cells);
                 Thread.Sleep(TickDelay);
             }
         }
         
-        private void UpdateDisplay(IEnumerable<Coordinate> liveCells)
+        private void UpdateDisplay(IEnumerable<Coordinate> liveCellCoordinates)
         {
             dynamicGrid.Children.Clear();
 
-            foreach (var liveCell in liveCells)
+            foreach (var liveCell in liveCellCoordinates)
             {
                 var panel = new DockPanel();
                 panel.Background = new SolidColorBrush(Colors.Black);

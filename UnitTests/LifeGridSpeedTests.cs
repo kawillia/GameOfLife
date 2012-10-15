@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using GameOfLife.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,11 +20,13 @@ namespace GameOfLife.UnitTests
         [TestMethod]
         public void HandlesLargeGrid()
         {
-            var startTime = DateTime.Now;
+            var stopwatch = Stopwatch.StartNew();
             grid.Tick();
-            var endTime = DateTime.Now;
+            stopwatch.Stop();
 
-            Assert.IsTrue(endTime - startTime < new TimeSpan(0, 0, 0, 0, 500));
+            var message = "Timespan was " + stopwatch.Elapsed;
+            Assert.IsTrue(stopwatch.Elapsed < new TimeSpan(0, 0, 0, 0, 500), message);
+            Console.WriteLine(message);
         }
     }
 }
