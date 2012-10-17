@@ -77,6 +77,7 @@ namespace GameOfLife.SharpGlWpfApplication
             gl.Vertex(x, y + 1, 0.0f);
             gl.End();
 
+            gl.Color(1.0f, 0.0f, 0.0);
             gl.Begin(OpenGL.GL_POLYGON);
             gl.Vertex(x + 1, y, 0.0f);
             gl.Vertex(x + 1, y + 1, 0.0f);
@@ -91,6 +92,7 @@ namespace GameOfLife.SharpGlWpfApplication
             gl.Vertex(x, y, 0.0f);
             gl.End();
 
+            gl.Color(0.0f, 0.0f, 1.0f);
             // Top
             gl.Begin(OpenGL.GL_POLYGON);
             gl.Vertex(x, y + 1, -1.0f);

@@ -50,13 +50,13 @@ namespace GameOfLife.WpfApplication
                 var row = new RowDefinition();
                 row.Height = new GridLength(rowHeight);
                 dynamicGrid.RowDefinitions.Add(row);
+            }
 
-                for (var j = 0; j < NumberOfColumns; j++)
-                {
-                    var column = new ColumnDefinition();
-                    column.Width = new GridLength(columnHeight);
-                    dynamicGrid.ColumnDefinitions.Add(column);
-                }
+            for (var j = 0; j < NumberOfColumns; j++)
+            {
+                var column = new ColumnDefinition();
+                column.Width = new GridLength(columnHeight);
+                dynamicGrid.ColumnDefinitions.Add(column);
             }
         }
 
