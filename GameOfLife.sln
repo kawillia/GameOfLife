@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.ConsoleApplicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.WpfApplication", "WpfApplication\GameOfLife.WpfApplication.csproj", "{17190634-4F7B-4FB3-94D5-A67F0A33D092}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.SharpGlWpfApplication", "SharpGlWpfApplication\GameOfLife.SharpGlWpfApplication.csproj", "{A434FFFC-A9CE-455B-8B7C-2673B9415207}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = GameOfLife.vsmdi
@@ -69,6 +71,16 @@ Global
 		{17190634-4F7B-4FB3-94D5-A67F0A33D092}.Release|Mixed Platforms.Build.0 = Release|x86
 		{17190634-4F7B-4FB3-94D5-A67F0A33D092}.Release|x86.ActiveCfg = Release|x86
 		{17190634-4F7B-4FB3-94D5-A67F0A33D092}.Release|x86.Build.0 = Release|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Debug|x86.ActiveCfg = Debug|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Debug|x86.Build.0 = Debug|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|Any CPU.ActiveCfg = Release|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|x86.ActiveCfg = Release|x86
+		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

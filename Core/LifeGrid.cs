@@ -116,7 +116,7 @@ namespace GameOfLife.Core
                     yield return cells[y - 1, x - 1];
             }
         }
-        
+
         public Boolean IsCellAlive(Int32 columnNumber, Int32 rowNumber)
         {
             return cells[rowNumber - 1, columnNumber - 1];
