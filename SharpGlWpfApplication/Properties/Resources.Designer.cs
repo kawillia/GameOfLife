@@ -10,7 +10,6 @@
 
 namespace GameOfLife.SharpGlWpfApplication.Properties
 {
-    using System;
 
 
     /// <summary>

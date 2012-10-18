@@ -5,15 +5,14 @@
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF" 
         Name="mainWindow"
         KeyDown="mainWindow_KeyDown"
-        MouseMove="mainWindow_MouseMove"
-        MouseWheel="mainWindow_MouseWheel">
+        MouseMove="mainWindow_MouseMove">
     <Grid>
         
         <!-- The OpenGL control provides a OpenGL drawing surface. -->
         <sharpGL:OpenGLControl 
             Name="openGLControl" OpenGLDraw="openGLControl_OpenGLDraw" 
             OpenGLInitialized="openGLControl_OpenGLInitialized" Resized="openGLControl_Resized"
-            RenderContextType="FBO" FrameRate="20" DrawFPS="True" />
+            RenderContextType="DIBSection" FrameRate="20" DrawFPS="True" />
         
     </Grid>
 </Window>

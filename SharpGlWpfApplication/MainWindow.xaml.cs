@@ -1,41 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SharpGL.SceneGraph;
-using SharpGL;
-using GameOfLife.Core;
-using System.Diagnostics;
 using System.Timers;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media.Media3D;
+using GameOfLife.Core;
+using GameOfLife.SharpGlWpfApplication.Cameras;
+using SharpGL;
+using SharpGL.SceneGraph;
 
 namespace GameOfLife.SharpGlWpfApplication
 {
     public partial class MainWindow : Window
     {
-        private const Int32 NumberOfRows = 150;
-        private const Int32 NumberOfColumns = 150;
+        private const Int32 NumberOfRows = 60;
+        private const Int32 NumberOfColumns = 60;
         private const Int32 TickDelay = 250;
-        private const Int32 ArrowKeySensitivity = 2;        
-        private const Double CameraRotationSpeed = 10;
+        private const Int32 CameraMoveSensitivity = 5;        
+        private const Int32 CameraRotationSensitivity = 240;
+        private const Int32 GridOffsetX = NumberOfColumns / 2;
+        private const Int32 GridOffsetY = NumberOfRows / 2;
 
         private Timer timer;
         private OpenGL gl;
         private LifeGrid lifeGrid;
-        private Vector3 cameraPosition;
-        private Vector3 cameraForward;
-        private Double cameraAngle = 90;
-        private Random random = new Random();
-        private Double lastMouseX;
-        private Double cameraRadius = NumberOfRows * 2;
+        private Vector3D lastMousePosition;
+        private FreeFlyingCamera camera;
 
         public MainWindow()
         {
@@ -43,8 +32,7 @@ namespace GameOfLife.SharpGlWpfApplication
             timer = new Timer();
             timer.Interval = TickDelay;
             timer.Elapsed += (s, a) => lifeGrid.Tick();
-            cameraPosition = new Vector3(0, 0, 0);
-            cameraForward = new Vector3(0, 0, 0);
+            camera = new FreeFlyingCamera();
         }
 
         private void StartSimulation()
@@ -56,10 +44,10 @@ namespace GameOfLife.SharpGlWpfApplication
 
         private void openGLControl_OpenGLDraw(Object sender, OpenGLEventArgs args)
         {
-            gl = openGLControl.OpenGL;
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
             gl.LoadIdentity();
             DrawLiveCells();
+            SetCameraView();
         }
 
         private void DrawLiveCells()
@@ -67,18 +55,11 @@ namespace GameOfLife.SharpGlWpfApplication
             var liveCells = lifeGrid.GetLiveCellCoordinates();
 
             foreach (var liveCell in liveCells)
-                DrawCube(liveCell.X, liveCell.Y);
-        }
-
-        private Double ToRadians(Double degrees)
-        {
-            return (degrees * Math.PI) / 180;
+                DrawCube(liveCell.X - GridOffsetX, liveCell.Y - GridOffsetY);
         }
 
         private void DrawCube(Single x, Single y)
         {
-            x -= NumberOfColumns / 2;
-            y -= NumberOfRows / 2;
             gl.Color(0.0f, 0.0f, 1.0f);
 
             gl.Begin(OpenGL.GL_POLYGON);
@@ -103,8 +84,7 @@ namespace GameOfLife.SharpGlWpfApplication
             gl.Vertex(x, y, 0.0f);
             gl.End();
 
-            gl.Color(0.0f, 0.0f, 1.0f);
-            // Top
+            gl.Color(0.0f, 0.0f, 1.0f);            
             gl.Begin(OpenGL.GL_POLYGON);
             gl.Vertex(x, y + 1, -1.0f);
             gl.Vertex(x + 1, y + 1, -1.0f);
@@ -112,7 +92,6 @@ namespace GameOfLife.SharpGlWpfApplication
             gl.Vertex(x, y + 1, 0.0f);
             gl.End();
 
-            // Bottom
             gl.Begin(OpenGL.GL_POLYGON);
             gl.Vertex(x, y, -1.0f);
             gl.Vertex(x + 1, y, -1.0f);
@@ -128,8 +107,28 @@ namespace GameOfLife.SharpGlWpfApplication
             gl.End();
         }
 
+        private void SetCameraView()
+        {
+            gl.MatrixMode(OpenGL.GL_PROJECTION);
+            gl.LoadIdentity();
+            gl.Perspective(60.0f, (Double)Width / (Double)Height, 0.01, 1000.0);
+            gl.LookAt(
+                camera.Position.X,
+                camera.Position.Y,
+                camera.Position.Z,
+                camera.Target.X,
+                camera.Target.Y,
+                camera.Target.Z,
+                camera.Up.X,
+                camera.Up.Y,
+                camera.Up.Z);
+
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
+        }
+
         private void openGLControl_OpenGLInitialized(Object sender, OpenGLEventArgs args)
         {
+            camera.SetZPosition(NumberOfRows);
             gl = openGLControl.OpenGL;
             gl.ClearColor(0, 0, 0, 0);
             StartSimulation();
@@ -137,49 +136,55 @@ namespace GameOfLife.SharpGlWpfApplication
 
         private void openGLControl_Resized(Object sender, OpenGLEventArgs args)
         {
-            UpdateCamera();
+            SetCameraView();
         }
 
         private void mainWindow_KeyDown(Object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (Keyboard.IsKeyDown(Key.Enter))
                 StartSimulation();
-            else if (e.Key == Key.Down)
-                cameraPosition.Y -= ArrowKeySensitivity;
-            else if (e.Key == Key.Up)
-                cameraPosition.Y += ArrowKeySensitivity;
 
-            UpdateCamera();
+            if (Keyboard.IsKeyDown(Key.W))
+                camera.MoveForward(CameraMoveSensitivity);
+
+            if (Keyboard.IsKeyDown(Key.S))
+                camera.MoveForward(-CameraMoveSensitivity);
+
+            if (Keyboard.IsKeyDown(Key.A))
+                camera.MoveSide(-CameraMoveSensitivity);
+
+            if (Keyboard.IsKeyDown(Key.D))
+                camera.MoveSide(CameraMoveSensitivity);
+
+            if (Keyboard.IsKeyDown(Key.Left))
+                camera.Rotate(new Vector3D(CameraRotationSensitivity, 0, 0));
+
+            if (Keyboard.IsKeyDown(Key.Right))
+                camera.Rotate(new Vector3D(-CameraRotationSensitivity, 0, 0));
+
+            if (Keyboard.IsKeyDown(Key.Up))
+                camera.Rotate(new Vector3D(0, CameraRotationSensitivity, 0));
+
+            if (Keyboard.IsKeyDown(Key.Down))
+                camera.Rotate(new Vector3D(0, -CameraRotationSensitivity, 0));
         }
-
-        private void UpdateCamera()
-        {
-            cameraPosition.X = cameraRadius * Math.Cos(ToRadians(cameraAngle));
-            cameraPosition.Z = cameraRadius * Math.Sin(ToRadians(cameraAngle));
-
-            gl.MatrixMode(OpenGL.GL_PROJECTION);
-            gl.LoadIdentity();
-            gl.Perspective(60.0f, (Double)Width / (Double)Height, 0.01, 1000.0);
-            gl.LookAt(cameraPosition.X, cameraPosition.Y, cameraPosition.Z, 0, 0, 0, 0, 1.0, 0);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);
-        }
-
+        
         private void mainWindow_MouseMove(Object sender, MouseEventArgs e)
         {
             var mousePosition = e.GetPosition(this);
-            var deltaX = mousePosition.X - lastMouseX;
 
-            cameraAngle += deltaX;
-            UpdateCamera();
-            lastMouseX = mousePosition.X;
-        }
+            //if (lastMousePosition != null)
+            //{
+            //    var deltaX = mousePosition.X - lastMousePosition.X;
+            //    var deltaY = mousePosition.Y - lastMousePosition.Y;
 
-        private void mainWindow_MouseWheel(Object sender, MouseWheelEventArgs e)
-        {
-            if (e.Delta != 0)
-                cameraRadius += 3 * e.Delta / Math.Abs(e.Delta);
+            //    deltaX /= deltaX;
+            //    deltaY /= deltaY;
 
-            UpdateCamera();
+            //    RotateCamera(new Vector3D(deltaX, deltaY, 0));
+            //}
+
+            lastMousePosition = new Vector3D(mousePosition.X, mousePosition.Y, 0d);
         }
     }
 }
