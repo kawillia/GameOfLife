@@ -9,12 +9,15 @@ namespace GameOfLife.Core
             var numberOfCells = grid.NumberOfRows * grid.NumberOfColumns;
             var random = new Random();
 
-            for (var i = 0; i < numberOfCells; i++)
+            for (var x = 0; x < grid.NumberOfColumns; x++)
             {
-                var randomRowNumber = random.Next(1, grid.NumberOfRows);
-                var randomColumnNumber = random.Next(1, grid.NumberOfColumns);
+                for (var y = 0; y < grid.NumberOfRows; y++)
+                {
+                    var randomNumber = random.Next(0, 5);
 
-                grid.BringToLife(randomRowNumber, randomColumnNumber);
+                    if (randomNumber == 1)
+                        grid.BringToLife(y + 1, x + 1);
+                }
             }
         }
     }

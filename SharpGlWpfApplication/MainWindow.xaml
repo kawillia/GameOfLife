@@ -4,7 +4,8 @@
         Title="SharpGL WPF Application" Height="600" Width="800" 
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF" 
         Name="mainWindow"
-        KeyDown="mainWindow_KeyDown" 
+        KeyDown="mainWindow_KeyDown"
+        MouseMove="mainWindow_MouseMove"
         MouseWheel="mainWindow_MouseWheel">
     <Grid>
         
