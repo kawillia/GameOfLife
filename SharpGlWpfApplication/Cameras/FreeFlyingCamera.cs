@@ -46,13 +46,13 @@ namespace GameOfLife.SharpGlWpfApplication.Cameras
 
         public void Rotate(Vector3D rotationAmount)
         {
-            var xRotationMatrix = new Matrix3D();
-            xRotationMatrix.Rotate(new Quaternion(Right, Trig.DegreeToRadian(rotationAmount.Y)));
+            var rotationAroundX = new Matrix3D();
+            rotationAroundX.Rotate(new Quaternion(Right, Trig.DegreeToRadian(rotationAmount.Y)));
 
-            var yRotationMatrix = new Matrix3D();
-            yRotationMatrix.Rotate(new Quaternion(new Vector3D(0, 1, 0), Trig.DegreeToRadian(rotationAmount.X)));
+            var rotationAroundY = new Matrix3D();
+            rotationAroundY.Rotate(new Quaternion(new Vector3D(0, 1, 0), Trig.DegreeToRadian(rotationAmount.X)));
 
-            var rotationMatrix = Matrix3D.Multiply(xRotationMatrix, yRotationMatrix);
+            var rotationMatrix = Matrix3D.Multiply(rotationAroundX, rotationAroundY);
             Direction = Vector3D.Multiply(Direction, rotationMatrix);
             Up = Vector3D.Multiply(Up, rotationMatrix);
 
