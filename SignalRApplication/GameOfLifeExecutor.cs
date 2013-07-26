@@ -13,7 +13,6 @@ namespace SignalRApplication
     public class GameOfLifeExecutor
     {
         private readonly static Lazy<GameOfLifeExecutor> instance = new Lazy<GameOfLifeExecutor>(() => new GameOfLifeExecutor(GlobalHost.ConnectionManager.GetHubContext<GameOfLifeHub>().Clients));
-        private ConcurrentBag<Coordinate> livingCells = new ConcurrentBag<Coordinate>();
         private readonly static LifeGrid lifeGrid = new LifeGrid(50, 50);
 
         private readonly TimeSpan updateInterval = TimeSpan.FromMilliseconds(250);
@@ -43,7 +42,7 @@ namespace SignalRApplication
 
         public IEnumerable<Coordinate> GetLivingCells()
         {
-            return livingCells;
+            return lifeGrid.GetLivingCells();
         }
 
         private void UpdateLivingCells(Object state)
@@ -54,12 +53,7 @@ namespace SignalRApplication
                 {
                     updatingLivingCells = true;
                     lifeGrid.Tick();
-                    livingCells = new ConcurrentBag<Coordinate>();
-
-                    foreach (var livingCell in lifeGrid.GetLiveCellCoordinates())
-                        livingCells.Add(livingCell);
-                    
-                    Clients.All.updateLivingCells(livingCells.ToList());
+                    Clients.All.updateLivingCells(lifeGrid.GetLivingCells());
                     updatingLivingCells = false;
                 }
             }

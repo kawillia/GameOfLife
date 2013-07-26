@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="GameOfLife.html" />
+    <Content Include="Index.html" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

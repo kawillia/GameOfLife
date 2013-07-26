@@ -52,7 +52,7 @@ namespace GameOfLife.SharpGlWpfApplication
 
         private void DrawLiveCells()
         {
-            var liveCells = lifeGrid.GetLiveCellCoordinates();
+            var liveCells = lifeGrid.GetLivingCells();
 
             foreach (var liveCell in liveCells)
                 DrawCube(liveCell.X - GridOffsetX, liveCell.Y - GridOffsetY);

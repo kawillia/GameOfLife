@@ -99,7 +99,7 @@ namespace GameOfLife.WpfApplication
 
                 grid.Tick();
 
-                var cells = grid.GetLiveCellCoordinates();
+                var cells = grid.GetLivingCells();
                 backgroundWorker.ReportProgress(0, cells);
                 Thread.Sleep(TickDelay);
             }

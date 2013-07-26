@@ -20,7 +20,7 @@ namespace GameOfLife.ConsoleApplication
             {
                 grid.Tick();
 
-                var cells = grid.GetLiveCellCoordinates();
+                var cells = grid.GetLivingCells();
                 DisplayCells(cells);
                 Thread.Sleep(500);
             }

@@ -122,7 +122,7 @@ namespace GameOfLife.Core
             return cells[rowNumber - 1, columnNumber - 1];
         }
 
-        public IEnumerable<Coordinate> GetLiveCellCoordinates()
+        public IEnumerable<Coordinate> GetLivingCells()
         {
             var liveCells = new List<Coordinate>();
 
