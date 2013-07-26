@@ -1,5 +1,5 @@
-﻿using System.Windows.Media.Media3D;
-using System;
+﻿using System;
+using System.Windows.Media.Media3D;
 using MathNet.Numerics;
 
 namespace GameOfLife.SharpGlWpfApplication.Cameras
@@ -12,10 +12,10 @@ namespace GameOfLife.SharpGlWpfApplication.Cameras
         public Vector3D Target { get; private set; }
         public Vector3D Right { get; private set; }
 
-        public FreeFlyingCamera()
+        public FreeFlyingCamera(Vector3D position, Vector3D direction, Vector3D target)
         {
-            Position = new Vector3D(0, 0, 1);
-            Direction = new Vector3D(0, 0, -1);
+            Position = position;
+            Direction = direction;
             Target = new Vector3D(0, 0, -1);
             Up = new Vector3D(0, 1, 0);
             Right = new Vector3D(1, 0, 0);
@@ -50,7 +50,7 @@ namespace GameOfLife.SharpGlWpfApplication.Cameras
             rotationAroundX.Rotate(new Quaternion(Right, Trig.DegreeToRadian(rotationAmount.Y)));
 
             var rotationAroundY = new Matrix3D();
-            rotationAroundY.Rotate(new Quaternion(new Vector3D(0, 1, 0), Trig.DegreeToRadian(rotationAmount.X)));
+            rotationAroundY.Rotate(new Quaternion(Up, Trig.DegreeToRadian(rotationAmount.X)));
 
             var rotationMatrix = Matrix3D.Multiply(rotationAroundX, rotationAroundY);
             Direction = Vector3D.Multiply(Direction, rotationMatrix);

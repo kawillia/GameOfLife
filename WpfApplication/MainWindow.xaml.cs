@@ -11,8 +11,8 @@ namespace GameOfLife.WpfApplication
 {
     public partial class MainWindow : Window
     {
-        private const Int32 NumberOfRows = 150;
-        private const Int32 NumberOfColumns = 150;
+        private const Int32 NumberOfRows = 50;
+        private const Int32 NumberOfColumns = 50;
         private const Int32 TickDelay = 250;
 
         private BackgroundWorker backgroundWorker;

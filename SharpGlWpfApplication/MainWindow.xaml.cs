@@ -15,7 +15,7 @@ namespace GameOfLife.SharpGlWpfApplication
         private const Int32 NumberOfRows = 60;
         private const Int32 NumberOfColumns = 60;
         private const Int32 TickDelay = 250;
-        private const Int32 CameraMoveSensitivity = 5;        
+        private const Int32 CameraMoveSensitivity = 10;        
         private const Int32 CameraRotationSensitivity = 240;
         private const Int32 GridOffsetX = NumberOfColumns / 2;
         private const Int32 GridOffsetY = NumberOfRows / 2;
@@ -32,7 +32,7 @@ namespace GameOfLife.SharpGlWpfApplication
             timer = new Timer();
             timer.Interval = TickDelay;
             timer.Elapsed += (s, a) => lifeGrid.Tick();
-            camera = new FreeFlyingCamera();
+            camera = new FreeFlyingCamera(new Vector3D(0, 0, 1), new Vector3D(0, 0, -1), new Vector3D(0, 0, 0));
         }
 
         private void StartSimulation()
