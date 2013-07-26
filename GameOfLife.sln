@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Core", "Core\GameOfLife.Core.csproj", "{B6EC237D-0F04-4787-9628-ABF4DF9B0D55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9E601CB-35FC-4F98-9338-73DA342D8784}"
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.WpfApplication", "WpfApplication\GameOfLife.WpfApplication.csproj", "{17190634-4F7B-4FB3-94D5-A67F0A33D092}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.SharpGlWpfApplication", "SharpGlWpfApplication\GameOfLife.SharpGlWpfApplication.csproj", "{A434FFFC-A9CE-455B-8B7C-2673B9415207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.SignalRApplication", "SignalRApplication\GameOfLife.SignalRApplication.csproj", "{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -81,6 +83,16 @@ Global
 		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|x86.ActiveCfg = Release|x86
 		{A434FFFC-A9CE-455B-8B7C-2673B9415207}.Release|x86.Build.0 = Release|x86
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9E5398C5-A2C6-47CA-B6B5-76DD3F60390F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
