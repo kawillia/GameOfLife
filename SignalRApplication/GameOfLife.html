@@ -18,6 +18,10 @@
                 gameOfLife.server.getLivingCells().done(function (livingCells) {
                     renderLivingCells(livingCells);
                 });
+
+                $("#restart").click(function () {
+                    gameOfLife.server.restart();
+                });
             });
 
             function renderLivingCells(livingCells) {
@@ -38,5 +42,6 @@
         });
     </script>
     <canvas id="gridCanvas" width="500" height="500"></canvas>
+    <input id="restart" type="button" value="Restart" />
 </body>
 </html>

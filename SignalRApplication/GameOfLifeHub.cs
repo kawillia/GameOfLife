@@ -27,5 +27,10 @@ namespace SignalRApplication
         {
             return gameOfLifeExecutor.GetLivingCells();
         }
+
+        public void Restart()
+        {
+            gameOfLifeExecutor.Restart();
+        }
     }
 }

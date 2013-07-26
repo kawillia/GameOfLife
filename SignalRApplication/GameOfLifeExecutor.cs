@@ -64,5 +64,18 @@ namespace SignalRApplication
                 }
             }
         }
+
+        public void Restart()
+        {
+            lock (updateLivingCellsLock)
+            {
+                if (!updatingLivingCells)
+                {
+                    updatingLivingCells = true;
+                    RandomGridSeeder.Seed(lifeGrid);
+                    updatingLivingCells = false;
+                }
+            }
+        }
     }
 }
