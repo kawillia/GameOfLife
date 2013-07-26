@@ -58,10 +58,8 @@ namespace SignalRApplication
 
                     foreach (var livingCell in lifeGrid.GetLiveCellCoordinates())
                         livingCells.Add(livingCell);
-
-                    var testList = new[] { new Coordinate(1, 2) };
-
-                    Clients.All.updateLivingCells(testList);
+                    
+                    Clients.All.updateLivingCells(livingCells.ToList());
                     updatingLivingCells = false;
                 }
             }

@@ -21,11 +21,22 @@
             });
 
             function renderLivingCells(livingCells) {
+                var canvas = document.getElementById('gridCanvas');
+                var context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
                 $.each(livingCells, function (i) {
-                    $("body").append("<span style=\"color: black;\">X: " + this.X + " Y: " + this.Y + "</span>");
+                    context.beginPath();
+                    context.rect(this.X * 10, this.Y * 10, 10, 10);
+                    context.fillStyle = 'black';
+                    context.fill();
+                    context.lineWidth = 1;
+                    context.strokeStyle = 'black';
+                    context.stroke();
                 });
             }
         });
     </script>
+    <canvas id="gridCanvas" width="500" height="500"></canvas>
 </body>
 </html>
