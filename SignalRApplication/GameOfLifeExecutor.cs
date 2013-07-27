@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -13,7 +14,7 @@ namespace SignalRApplication
     public class GameOfLifeExecutor
     {
         private readonly static Lazy<GameOfLifeExecutor> instance = new Lazy<GameOfLifeExecutor>(() => new GameOfLifeExecutor(GlobalHost.ConnectionManager.GetHubContext<GameOfLifeHub>().Clients));
-        private readonly static LifeGrid lifeGrid = new LifeGrid(50, 50);
+        private readonly static Lazy<LifeGrid> lifeGrid = new Lazy<LifeGrid>(() => new LifeGrid(50, 50));
 
         private readonly TimeSpan updateInterval = TimeSpan.FromMilliseconds(250);
         private readonly Object updateLivingCellsLock = new Object();
@@ -24,9 +25,10 @@ namespace SignalRApplication
         {
             Clients = clients;
 
-            RandomGridSeeder.Seed(lifeGrid);
+            RandomGridSeeder.Seed(lifeGrid.Value);
 
             timer = new Timer(UpdateLivingCells, null, updateInterval, updateInterval);
+            Debug.WriteLine("Constructed");
         }
 
         public static GameOfLifeExecutor Instance
@@ -42,7 +44,7 @@ namespace SignalRApplication
 
         public IEnumerable<Coordinate> GetLivingCells()
         {
-            return lifeGrid.GetLivingCells();
+            return lifeGrid.Value.GetLivingCells();
         }
 
         private void UpdateLivingCells(Object state)
@@ -52,8 +54,8 @@ namespace SignalRApplication
                 if (!updatingLivingCells)
                 {
                     updatingLivingCells = true;
-                    lifeGrid.Tick();
-                    Clients.All.updateLivingCells(lifeGrid.GetLivingCells());
+                    lifeGrid.Value.Tick();
+                    Clients.All.updateLivingCells(lifeGrid.Value.GetLivingCells());
                     updatingLivingCells = false;
                 }
             }
@@ -66,7 +68,7 @@ namespace SignalRApplication
                 if (!updatingLivingCells)
                 {
                     updatingLivingCells = true;
-                    RandomGridSeeder.Seed(lifeGrid);
+                    RandomGridSeeder.Seed(lifeGrid.Value);
                     updatingLivingCells = false;
                 }
             }
