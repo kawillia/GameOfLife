@@ -1,7 +1,14 @@
 ﻿$(function () {
     var gameOfLifeHub = $.connection.gameOfLifeHub;
+    var cellSize = 10;
 
     $.connection.hub.start().done(function () {
+        gameOfLifeHub.server.getDimensions().done(function (dimensions) {
+            var canvas = document.getElementById('gridCanvas');
+            canvas.width = cellSize * dimensions.NumberOfColumns;
+            canvas.height = cellSize * dimensions.NumberOfRows;
+        });
+
         $("#restart").click(function () {
             gameOfLifeHub.server.restart();
         });
@@ -14,7 +21,7 @@
 
         $.each(livingCells, function (i) {
             context.beginPath();
-            context.rect(this.X * 10, this.Y * 10, 10, 10);
+            context.rect(this.X * cellSize, this.Y * cellSize, cellSize, cellSize);
             context.fillStyle = 'black';
             context.fill();
             context.lineWidth = 1;

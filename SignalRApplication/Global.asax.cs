@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
 
-namespace SignalRApplication
+namespace GameOfLife.SignalRApplication
 {
     public class Global : System.Web.HttpApplication
     {

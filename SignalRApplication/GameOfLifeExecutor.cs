@@ -6,15 +6,19 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using GameOfLife.Core;
+using GameOfLife.SignalRApplication.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
-namespace SignalRApplication
+namespace GameOfLife.SignalRApplication
 {
     public class GameOfLifeExecutor
     {
+        public const Int32 NumberOfRows = 100;
+        public const Int32 NumberOfColumns = 100;
+
         private readonly static Lazy<GameOfLifeExecutor> instance = new Lazy<GameOfLifeExecutor>(() => new GameOfLifeExecutor(GlobalHost.ConnectionManager.GetHubContext<GameOfLifeHub>().Clients));
-        private readonly static Lazy<LifeGrid> lifeGrid = new Lazy<LifeGrid>(() => new LifeGrid(50, 50));
+        private readonly static Lazy<LifeGrid> lifeGrid = new Lazy<LifeGrid>(() => new LifeGrid(NumberOfRows, NumberOfColumns));
 
         private readonly IHubConnectionContext clients;
         private readonly Timer timer;
