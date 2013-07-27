@@ -15,11 +15,6 @@ namespace SignalRApplication
             this.gameOfLifeExecutor = gameOfLifeExecutor;
         }
 
-        public IEnumerable<Coordinate> GetLivingCells()
-        {
-            return gameOfLifeExecutor.GetLivingCells();
-        }
-
         public void Restart()
         {
             gameOfLifeExecutor.Restart();
