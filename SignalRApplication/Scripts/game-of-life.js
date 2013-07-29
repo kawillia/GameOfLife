@@ -1,16 +1,6 @@
 ﻿$(function () {
     var gameOfLife = $.connection.gameOfLifeHub;
     gameOfLife.client.updateLivingCells = function (livingCells) {
-        renderLivingCells(livingCells);
-    };
-
-    $.connection.hub.start().done(function () {
-        $("#restart").click(function () {
-            gameOfLife.server.restart();
-        });
-    });
-
-    function renderLivingCells(livingCells) {
         var canvas = document.getElementById('gridCanvas');
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -24,5 +14,11 @@
             context.strokeStyle = 'black';
             context.stroke();
         });
-    }
+    };
+
+    $.connection.hub.start().done(function () {
+        $("#restart").click(function () {
+            gameOfLife.server.restart();
+        });
+    });
 });
