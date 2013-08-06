@@ -10,7 +10,7 @@ namespace SignalRApplication
     public class GameOfLifeExecutor
     {
         private readonly static Lazy<GameOfLifeExecutor> instance = new Lazy<GameOfLifeExecutor>(() => new GameOfLifeExecutor(GlobalHost.ConnectionManager.GetHubContext<GameOfLifeHub>().Clients));
-        private readonly static Lazy<LifeGrid> lifeGrid = new Lazy<LifeGrid>(() => new LifeGrid(150, 150));
+        private readonly static Lazy<LifeGrid> lifeGrid = new Lazy<LifeGrid>(() => new LifeGrid(50, 50));
         private readonly static Lazy<IGridSeeder> gridSeeder = new Lazy<IGridSeeder>(() => new RandomGridSeeder());
 
         private readonly TimeSpan updateInterval = TimeSpan.FromMilliseconds(250);
