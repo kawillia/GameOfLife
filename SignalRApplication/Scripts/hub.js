@@ -25,7 +25,7 @@
             context.fillStyle = 'black';
             context.fill();
             context.lineWidth = 1;
-            context.strokeStyle = 'black';
+            context.strokeStyle = 'white';
             context.stroke();
         });
     }
