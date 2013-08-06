@@ -14,7 +14,8 @@ namespace GameOfLife.UnitTests
         public void TestInitialize()
         {
             grid = new LifeGrid(1000, 1000);
-            RandomGridSeeder.Seed(grid);
+            var randomGridSeeder = new RandomGridSeeder();
+            randomGridSeeder.Seed(grid);
         }
 
         [TestMethod]

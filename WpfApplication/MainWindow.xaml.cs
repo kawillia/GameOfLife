@@ -87,7 +87,8 @@ namespace GameOfLife.WpfApplication
         protected void backgroundWorker_DoWork(Object sender, DoWorkEventArgs e)
         {
             var grid = new LifeGrid(NumberOfRows, NumberOfColumns);
-            RandomGridSeeder.Seed(grid);
+            var randomGridSeeder = new RandomGridSeeder();
+            randomGridSeeder.Seed(grid);
 
             while (true)
             {

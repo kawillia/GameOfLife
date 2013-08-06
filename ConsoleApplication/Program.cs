@@ -14,7 +14,8 @@ namespace GameOfLife.ConsoleApplication
         static void Main(string[] args)
         {
             var grid = new LifeGrid(NumberOfRows, NumberOfColumns);
-            RandomGridSeeder.Seed(grid);
+            var randomGridSeeder = new RandomGridSeeder();
+            randomGridSeeder.Seed(grid);
 
             while (true)
             {

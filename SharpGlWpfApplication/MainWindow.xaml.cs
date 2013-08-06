@@ -38,7 +38,8 @@ namespace GameOfLife.SharpGlWpfApplication
         private void StartSimulation()
         {
             lifeGrid = new LifeGrid(NumberOfRows, NumberOfColumns);
-            RandomGridSeeder.Seed(lifeGrid);
+            var randomGridSeeder = new RandomGridSeeder();
+            randomGridSeeder.Seed(lifeGrid);
             timer.Start();
         }
 

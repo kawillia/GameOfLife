@@ -2,11 +2,10 @@
 
 namespace GameOfLife.Core
 {
-    public class RandomGridSeeder
+    public class RandomGridSeeder : IGridSeeder
     {
-        public static void Seed(LifeGrid grid)
+        public void Seed(LifeGrid grid)
         {
-            var numberOfCells = grid.NumberOfRows * grid.NumberOfColumns;
             var random = new Random();
 
             for (var x = 0; x < grid.NumberOfColumns; x++)
